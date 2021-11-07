@@ -1,0 +1,13 @@
+.debugger {
+  border: 2px solid dimgrey;
+  background: ghostwhite;
+  padding: 5px;
+  margin: 10px;
+}
+
+.debugger__code {
+  display: block;
+  border: 1px darkslategrey dashed;
+  padding: 10px;
+  background-color: lightgray;
+}

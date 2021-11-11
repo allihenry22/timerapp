@@ -17,7 +17,7 @@
 }
 
 .layout__heading {
-  composes: heading-compose from "../../../core/shared/styles/index.css";
+  composes: heading-compose from "core/shared/styles/index.css";
 }
 
 .layout__side-bar {

@@ -8,20 +8,20 @@ module.exports = {
   rules: {
     'array-bracket-newline': [
       'error',
-      { minItems: 2 },
+      {minItems: 1},
     ],
     'array-bracket-spacing': [
       'error',
       'never',
       {
         singleValue: true,
-        arraysInArrays: true,
-        objectsInArrays: true,
+        arraysInArrays: false,
+        objectsInArrays: false,
       },
     ],
     'array-element-newline': [
       'error',
-      { minItems: 2 },
+      {minItems: 1},
     ],
     'arrow-parens': [
       'error',
@@ -36,7 +36,7 @@ module.exports = {
     ],
     'computed-property-spacing': [
       'error',
-      'always',
+      'never',
     ],
     'dot-notation': 0,
     'function-paren-newline': [
@@ -46,7 +46,7 @@ module.exports = {
     'func-style': [
       'error',
       'declaration',
-      { allowArrowFunctions: true },
+      {allowArrowFunctions: true},
     ],
     indent: [
       'error',
@@ -58,15 +58,15 @@ module.exports = {
     ],
     'object-curly-newline': [
       'error',
-      { minProperties: 2 },
+      {minProperties: 2},
     ],
     'object-curly-spacing': [
       'error',
-      'always',
+      'never',
     ],
     'object-property-newline': [
       'error',
-      { allowAllPropertiesOnSameLine: false },
+      {allowAllPropertiesOnSameLine: false},
     ],
     quotes: [
       'error',
@@ -74,7 +74,7 @@ module.exports = {
     ],
     'space-in-parens': [
       'error',
-      'always',
+      'never',
     ],
     semi: [
       'error',
@@ -93,20 +93,21 @@ module.exports = {
     'react/jsx-curly-newline': 0,
     'react/jsx-curly-spacing': [
       'error',
-      { when: 'always' },
+      {when: 'always'},
     ],
     'react/jsx-filename-extension': [
       1,
-      { extensions: [
+      {extensions: [
         '.js',
         '.jsx',
-      ] },
+      ]},
     ],
     'react/jsx-fragments': 0,
     'react/jsx-max-props-per-line': [
       'error',
-      { maximum: 1 },
+      {maximum: 1},
     ],
+    'react/jsx-no-bind': 0,
     'react/jsx-one-expression-per-line': 0,
     'react/jsx-props-no-multi-spaces': 0,
     'react/jsx-props-no-spreading': 0,

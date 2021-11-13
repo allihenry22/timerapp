@@ -89,6 +89,7 @@ module.exports = {
       },
     ],
     'import/no-unresolved': 0,
+    'import/no-named-default': 0,
     'react/forbid-prop-types': 0,
     'react/jsx-curly-newline': 0,
     'react/jsx-curly-spacing': [

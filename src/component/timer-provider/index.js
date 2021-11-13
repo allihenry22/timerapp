@@ -1,5 +1,5 @@
 import * as React from 'react';
-import createID from 'utils';
+import {createID} from 'utils';
 // import createID from 'utils';
 
 const {
@@ -14,51 +14,35 @@ const STATUS_ENUM = {
   NOT_STARTED: 'NOT_STARTED',
 };
 
-// function addItem(text) {
-//   const newItem = {[createID()]: {
-//     text,
-//     status: STATUS_ENUM.NOT_STARTED,
-//     timer: null,
-//   }};
-//   const newState = {
-//     ...timerItems,
-//     ...newItem,
-//   };
-//
-//   setTimerItems(newState);
-// }
+const initalStateForDebug = {};
+// _yx89jjqpy: {
+//   text: 'Study for Finals',
+//   status: 'NOT_STARTED',
+//   timer: {
+//     length: 2000,
+//     status: 'NOT_STARTED',
+//   },
+// },
+// _0uiit5u6r: {
+//   text: 'Finish Essay Outline',
+//   status: 'NOT_STARTED',
+//   timer: {
+//     length: 2000,
+//     status: 'NOT_STARTED',
+//   },
+// },
+// _rbs05g3g3: {
+//   text: 'Pick up groceries ',
+//   status: 'NOT_STARTED',
+//   timer: {
+//     length: 2000,
+//     status: 'NOT_STARTED',
+//   },
+// },
+// };
+const DEFAULT_TIMER_LENGTH_MS = 1000 * 2;
+// const DEFAULT_TIMER_LENGTH_MS = 1500000; // 25 minutes
 
-// function getItem( id ) {
-//   return timerItems[ id ];
-// }
-//
-// function editItem( id, updatedValues ) {
-//   const itemToUpdate = timerItems[ id ];
-//
-//   if ( !itemToUpdate ) {
-//     throw new Error( `No item at index ${id}` );
-//   }
-//
-//   const updatedItem = [
-//     ...itemToUpdate,
-//     ...updatedValues,
-//   ];
-//
-//   const newState = {
-//     ...timerItems,
-//     ...updatedItem,
-//   };
-//
-//   setTimerItems( newState );
-// }
-
-// function deleteItem(id) {
-//   const currentTimers = {...timerItems};
-//
-//   delete currentTimers[id];
-//
-//   setTimerItems(currentTimers);
-// }
 const initialState = {};
 const TimerContext = createContext();
 
@@ -66,7 +50,43 @@ const TIMER_ACTION_TYPES = {
   ADD: 'ADD',
   DELETE: 'DELETE',
   EDIT: 'EDIT',
+  UPDATE_STATUS: 'UPDATE_STATUS',
+  UPDATE_TIMER_STATUS: 'UPDATE_TIMER_STATUS',
 };
+
+export const createTaskAction = (text) => ({
+  type: TIMER_ACTION_TYPES.ADD,
+  payload: {text},
+});
+
+export const deleteTaskAction = (key) => ({
+  type: TIMER_ACTION_TYPES.DELETE,
+  payload: {key},
+});
+
+export const editTaskAction = (key, text) => ({
+  type: TIMER_ACTION_TYPES.EDIT,
+  payload: {
+    key,
+    text,
+  },
+});
+
+export const updateTaskStatus = (key, status) => ({
+  type: TIMER_ACTION_TYPES.UPDATE_STATUS,
+  payload: {
+    key,
+    status,
+  },
+});
+
+export const updateTimerStatus = (key, status) => ({
+  type: TIMER_ACTION_TYPES.UPDATE_STATUS,
+  payload: {
+    key,
+    status,
+  },
+});
 
 function timerReducer(state = initialState, action) {
   const {
@@ -77,7 +97,10 @@ function timerReducer(state = initialState, action) {
     const newItem = {[createID()]: {
       text: payload.text,
       status: STATUS_ENUM.NOT_STARTED,
-      timer: null,
+      timer: {
+        length: DEFAULT_TIMER_LENGTH_MS,
+        status: STATUS_ENUM.NOT_STARTED,
+      },
     }};
 
     return {
@@ -86,18 +109,76 @@ function timerReducer(state = initialState, action) {
     };
   }
 
-  case TIMER_ACTION_TYPES.EDIT: {
+  case TIMER_ACTION_TYPES.UPDATE_STATUS: {
     const {
-      key, timerItem,
+      key, status,
     } = payload;
 
-    if (!key || !state[key] || !timerItem) {
+    if (!STATUS_ENUM[status]) {
+      throw new Error(`Status Type ${status} is not a valid Task status`);
+    }
+    const taskToEditStatus = state[key];
+
+    if (!taskToEditStatus) {
+      throw new Error(`Invalid key provided: ${key}`);
+    }
+
+    const updatedTask = {
+      ...taskToEditStatus,
+      status: STATUS_ENUM[status],
+    };
+
+    console.log('%c TIMER_ACTION_TYPES.UPDATE_STATUS ', 'background: deeppink; color: #FFF; font-size: 13px;', updatedTask);
+
+    // return state;
+    return {
+      ...state,
+      [key]: {
+        ...state[key],
+        ...updatedTask,
+      },
+    };
+  }
+  case TIMER_ACTION_TYPES.UPDATE_TIMER_STATUS: {
+    const {
+      key, status,
+    } = payload;
+
+    if (!STATUS_ENUM[status]) {
+      throw new Error(`Status Type ${status} is not a valid Task status`);
+    }
+    const taskToEditStatus = state[key];
+
+    if (!taskToEditStatus) {
+      throw new Error(`Invalid key provided: ${key}`);
+    }
+
+    const timerStatusTask = {
+      ...taskToEditStatus,
+      timer: {
+        ...taskToEditStatus.timer,
+        status,
+      },
+    };
+
+    return {
+      ...state,
+      ...timerStatusTask,
+    };
+  }
+
+  case TIMER_ACTION_TYPES.EDIT: {
+    const {
+      key, text,
+    } = payload;
+
+    if (!key || !state[key] || !text) {
       return state;
     }
 
     const updatedItem = {
       ...state[key],
-      ...timerItem,
+      text,
     };
 
     return {
@@ -129,7 +210,7 @@ function TimerProvider({children}) {
   const [
     state,
     dispatch,
-  ] = useReducer(timerReducer);
+  ] = useReducer(timerReducer, initalStateForDebug);
 
   const value = {
     state,

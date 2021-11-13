@@ -1,5 +1,5 @@
 import {
-  useTimerItems, TIMER_ACTION_TYPES,
+  useTimerItems, createTaskAction,
 } from 'component/timer-provider';
 import * as React from 'react';
 
@@ -17,18 +17,9 @@ const AddTask = (props) => {
   function handleOnSubmit(ev) {
     ev.preventDefault();
     const {value} = taskInput.current;
-    dispatch({
-      type: TIMER_ACTION_TYPES.ADD,
-      payload: {text: value},
-    });
+    dispatch(createTaskAction(value));
     onSubmitCallback(value);
-  }
-
-  function generateTask() {
-    dispatch({
-      type: TIMER_ACTION_TYPES.ADD,
-      payload: {text: `task ${Math.floor(Math.random() * 10)}`},
-    });
+    taskInput.current.value = '';
   }
 
   return (
@@ -41,13 +32,8 @@ const AddTask = (props) => {
           type="text"
           ref={ taskInput }
         />
-        <button type="submit"> Add Something Here</button>
+        <button type="submit"> Create an New Task</button>
       </form>
-      <button
-        type="button"
-        onClick={ generateTask }
-      > Generate A Task
-      </button>
     </div>
   );
 };

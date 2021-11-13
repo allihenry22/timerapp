@@ -1,3 +1,9 @@
-const createID = () => `_${Math.random().toString(36).substr(2, 9)}`;
+import {default as createID} from './create-id';
+import {default as convertMilliseconds} from './convert-milliseconds';
+import {default as Timer} from './timer-class';
 
-export default createID;
+export {
+  convertMilliseconds,
+  createID,
+  Timer,
+};

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {createID} from 'utils';
-// import createID from 'utils';
 
 const {
   createContext,
@@ -14,32 +13,32 @@ const STATUS_ENUM = {
   NOT_STARTED: 'NOT_STARTED',
 };
 
-const initalStateForDebug = {};
-// _yx89jjqpy: {
-//   text: 'Study for Finals',
-//   status: 'NOT_STARTED',
-//   timer: {
-//     length: 2000,
-//     status: 'NOT_STARTED',
-//   },
-// },
-// _0uiit5u6r: {
-//   text: 'Finish Essay Outline',
-//   status: 'NOT_STARTED',
-//   timer: {
-//     length: 2000,
-//     status: 'NOT_STARTED',
-//   },
-// },
-// _rbs05g3g3: {
-//   text: 'Pick up groceries ',
-//   status: 'NOT_STARTED',
-//   timer: {
-//     length: 2000,
-//     status: 'NOT_STARTED',
-//   },
-// },
-// };
+const initalStateForDebug = {
+  _yx89jjqpy: {
+    text: 'Study for Finals',
+    status: 'NOT_STARTED',
+    timer: {
+      length: 2000,
+      status: 'NOT_STARTED',
+    },
+  },
+  _0uiit5u6r: {
+    text: 'Finish Essay Outline',
+    status: 'NOT_STARTED',
+    timer: {
+      length: 2000,
+      status: 'NOT_STARTED',
+    },
+  },
+  _rbs05g3g3: {
+    text: 'Pick up groceries ',
+    status: 'NOT_STARTED',
+    timer: {
+      length: 2000,
+      status: 'NOT_STARTED',
+    },
+  },
+};
 const DEFAULT_TIMER_LENGTH_MS = 1000 * 2;
 // const DEFAULT_TIMER_LENGTH_MS = 1500000; // 25 minutes
 
@@ -128,9 +127,6 @@ function timerReducer(state = initialState, action) {
       status: STATUS_ENUM[status],
     };
 
-    console.log('%c TIMER_ACTION_TYPES.UPDATE_STATUS ', 'background: deeppink; color: #FFF; font-size: 13px;', updatedTask);
-
-    // return state;
     return {
       ...state,
       [key]: {

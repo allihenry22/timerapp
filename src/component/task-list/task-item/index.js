@@ -1,4 +1,4 @@
-import Debugger from 'component/debugger';
+import * as React from 'react';
 import {
   deleteTaskAction,
   STATUS_ENUM,
@@ -7,9 +7,9 @@ import {
   // updateTimerStatus,
   useTimerItems,
 } from 'component/timer-provider';
-import * as React from 'react';
 import {Timer} from 'utils';
-import './style/timer-item.css';
+import Debugger from 'component/debugger';
+import './style/task-item.css';
 
 const {
   useRef, useState,
@@ -21,12 +21,14 @@ function TaskItem(props) {
   } = props;
 
   const {dispatch} = useTimerItems();
+
   const [
     timeRemainingState,
     setTimeRemainingState,
   ] = useState('Not Started');
+
   const taskTimer = useRef(new Timer({
-    lengthInMs: 10000,
+    lengthInMs: 100000,
     onStop: () => {
       dispatch(updateTimerStatus(id, STATUS_ENUM.DONE));
     },
@@ -47,26 +49,28 @@ function TaskItem(props) {
       console.warn('no task timer');
       return;
     }
+
     taskTimer.current.starTimer();
+
     dispatch(updateTimerStatus(id, STATUS_ENUM.STARTED));
   };
 
-  function timerClassName() {
-    console.log(status);
+  function getCSSModifierClass() {
     if (status === STATUS_ENUM.STARTED) {
-      return 'timer timer--started';
+      return 'task-item--started';
     }
     if (status === STATUS_ENUM.DONE) {
-      return 'timer timer--done';
+      return 'task-item--done';
     }
 
-    return 'timer';
+    return '';
   }
 
   return (
-    <li className={ timerClassName() }>
-      <div>
+    <li className={ `task-item ${getCSSModifierClass()}` }>
+      <div className="task-item__task-name">
         <strong>{text}</strong> Timer: <em>{timeRemainingState}</em>
+
         <Debugger { ...{
           text,
           status,
@@ -74,14 +78,17 @@ function TaskItem(props) {
         } }
         />
       </div>
-      <div style={ {padding: '20px'} }>
+
+      <div className="task-item__button-group">
         <button
-          style={ {marginRight: '10px'} }
+          className="task-item__action_button"
           type="button"
           onClick={ handleDelete }
         >Delete Task
         </button>
+
         <button
+          className="task-item__action_button"
           type="button"
           onClick={ () => (handleTimerStart()) }
         >Start Task

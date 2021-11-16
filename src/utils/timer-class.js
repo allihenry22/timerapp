@@ -25,13 +25,14 @@ class Timer {
 
     if (this.nextTick <= now) {
       this.nextTick = now + Timer.__tickRate;
-      const msRemaining = this.stopTime - now;
-      const timeRemainingObject = convertMilliseconds(msRemaining);
-      const {
-        h: hours, m: minutes, s: seconds,
-      } = timeRemainingObject;
 
-      this.formattedTimeRemaining = `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+      const msRemaining = this.stopTime - now;
+
+      const timeRemainingObject = convertMilliseconds(msRemaining);
+
+      const {formatted} = timeRemainingObject;
+
+      this.formattedTimeRemaining = formatted;
 
       this.onTick({
         msRemaining,
@@ -44,6 +45,7 @@ class Timer {
       requestAnimationFrame(this.nextAnimationFrame);
     } else {
       this.isRunning = false;
+
       this.onStop(this.formattedTimeRemaining);
     }
   }
@@ -51,14 +53,12 @@ class Timer {
   starTimer() {
     this.nextTick = Date.now();
     this.stopTime = this.nextTick + this.length;
-    const {
-      h: startHours,
-      m: startMins,
-      s: startSecs,
-    } = convertMilliseconds(this.length);
+
+    const {formatted} = convertMilliseconds(this.length);
+
     this.isRunning = true;
 
-    this.formattedTimeRemaining = `${startHours}HH:${startMins}MM:${startSecs}SS`;
+    this.formattedTimeRemaining = formatted;
 
     this.nextAnimationFrame();
   }

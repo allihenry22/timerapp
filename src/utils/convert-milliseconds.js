@@ -1,4 +1,7 @@
-const convertMilliseconds = (milliseconds, format) => {
+const convertMilliseconds = (
+  milliseconds,
+  format,
+) => {
   const totalSeconds = Math.floor(milliseconds / 1000);
   const totalMinutes = Math.floor(totalSeconds / 60);
   const totalHours = Math.floor(totalMinutes / 60);
@@ -8,21 +11,50 @@ const convertMilliseconds = (milliseconds, format) => {
   const minutes = totalMinutes % 60;
   const hours = totalHours % 24;
 
+  function stringValue(value) {
+    if (value < 1) {
+      return '';
+    }
+
+    return (value < 10) ? `0${value}` : `${value}`;
+  }
+
+  const formattedTime = [
+    stringValue(days),
+    stringValue(hours),
+    stringValue(minutes),
+    stringValue(seconds),
+  ]
+    .filter((vals) => vals)
+    .join(':');
   switch (format) {
   case 's':
-    return totalSeconds;
+    return {
+      seconds: totalSeconds,
+      secondsFormatted: stringValue(totalSeconds),
+    };
   case 'm':
-    return totalMinutes;
+    return {
+      minutes: totalMinutes,
+      minutesFormatted: stringValue(totalMinutes),
+    };
   case 'h':
-    return totalHours;
+    return {
+      hours: totalHours,
+      hoursFormatted: stringValue(totalHours),
+    };
   case 'd':
-    return days;
+    return {
+      days,
+      daysFormatted: stringValue(days),
+    };
   default:
     return {
       d: days,
       h: hours,
       m: minutes,
       s: seconds,
+      formatted: formattedTime,
     };
   }
 };

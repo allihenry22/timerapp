@@ -1,0 +1,35 @@
+.task-item {
+  border-bottom: 1px dashed #4b5757;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.task-item__task-name {
+  font-size: 1.25em;
+  padding: 0 5px 0;
+  display: inline-block;
+}
+
+.task-item__button-group {
+  padding: 20px;
+}
+
+.task-item__action_button {
+  margin-right: 10px;
+}
+
+.task-item__action_button:last-child {
+  margin-right: 0;
+}
+
+.task-item--started {
+  background: #88b788;
+}
+
+.task-item--done {
+  color: grey;
+}
+
+.task-item--done .task-item__task-name {
+  text-decoration: line-through;
+}

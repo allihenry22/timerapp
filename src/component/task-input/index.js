@@ -1,38 +1,40 @@
+import * as React from 'react';
 import {
   useTimerItems, createTaskAction,
 } from 'component/timer-provider';
-import * as React from 'react';
+import './style/task-input.css';
 
 const {useRef} = React;
 
 const AddTask = (props) => {
-  const {
-    className, onSubmitCallback,
-  } = props;
+  const {className} = props;
 
   const {dispatch} = useTimerItems();
 
   const taskInput = useRef(null);
 
   function handleOnSubmit(ev) {
-    ev.preventDefault();
     const {value} = taskInput.current;
+
+    ev.preventDefault();
+
     dispatch(createTaskAction(value));
-    onSubmitCallback(value);
+
     taskInput.current.value = '';
   }
 
   return (
-    <div>
+    <div className="task-input">
       <form
         className={ className }
         onSubmit={ handleOnSubmit }
       >
         <input
+          className="task-input__entry-field"
           type="text"
           ref={ taskInput }
         />
-        <button type="submit"> Create an New Task</button>
+        <button type="submit"> Create a New Task</button>
       </form>
     </div>
   );

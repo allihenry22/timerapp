@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Debugger from 'component/debugger';
-import styles from './styles/layout.module.css';
+import styles from './style/layout.module.css';
 
 const Layout = (props) => {
   const {
